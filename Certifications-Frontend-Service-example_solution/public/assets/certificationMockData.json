@@ -1,0 +1,80 @@
+{
+  "_embedded": {
+    "certifications": [
+      {
+        "name": "Spring",
+        "url": "https://spring.io",
+        "price": 100.5,
+        "currency": null,
+        "state": null,
+        "skills": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/certifications/1000"
+          },
+          "certification": {
+            "href": "http://localhost:8080/certifications/1000"
+          },
+          "vouchers": {
+            "href": "http://localhost:8080/certifications/1000/vouchers"
+          }
+        }
+      },
+      {
+        "name": "Java 11",
+        "url": "https://oracle.com",
+        "price": 200.5,
+        "currency": null,
+        "state": null,
+        "skills": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/certifications/10001"
+          },
+          "certification": {
+            "href": "http://localhost:8080/certifications/10001"
+          },
+          "vouchers": {
+            "href": "http://localhost:8080/certifications/10001/vouchers"
+          }
+        }
+      },
+      {
+        "name": "Spring Boot",
+        "url": "https://spring.io",
+        "price": null,
+        "currency": null,
+        "state": null,
+        "skills": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/certifications/10003"
+          },
+          "certification": {
+            "href": "http://localhost:8080/certifications/10003"
+          },
+          "vouchers": {
+            "href": "http://localhost:8080/certifications/10003/vouchers"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/certifications"
+    },
+    "profile": {
+      "href": "http://localhost:8080/profile/certifications"
+    },
+    "search": {
+      "href": "http://localhost:8080/certifications/search"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 3,
+    "totalPages": 1,
+    "number": 0
+  }
+}
