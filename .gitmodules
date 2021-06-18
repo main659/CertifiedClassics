@@ -1,0 +1,6 @@
+[submodule "Certifications-Backend-Service"]
+	path = Certifications-Backend-Service
+	url = E:/Certifications-Backend-Service
+[submodule "Certifications-Frontend-Service"]
+	path = Certifications-Frontend-Service
+	url = E:/Certifications-Frontend-Service
