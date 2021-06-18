@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <Header v-if="loggedIn" />
+    <component :is="this.changeHeader.header"></component>
+  <!--Header v-if="loggedIn" /-->
     <v-main>
       <router-view />
     </v-main>
@@ -11,15 +12,26 @@
 <script>
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
+import HeaderAdmin from "./components/HeaderAdmin.vue"
 import { mapGetters, mapMutations } from "vuex";
+import store from './store';
 
 export default {
   components: {
     Footer,
     Header,
+    HeaderAdmin,
   },
   computed: {
-    ...mapGetters(["loggedIn"]),
+    //...mapGetters(["loggedIn"]),
+
+    changeHeader(){
+      return store.getters["isAdmin"] ? {
+        header: HeaderAdmin
+      } : {
+        header: Header
+      }
+    }
   },
   created() {
     this.loggedInMutation(localStorage.getItem("loggedIn"));
