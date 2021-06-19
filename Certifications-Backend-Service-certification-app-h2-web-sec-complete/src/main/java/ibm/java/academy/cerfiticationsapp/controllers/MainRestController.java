@@ -56,5 +56,18 @@ public class MainRestController {
     public void deleteUser(@RequestParam("id") Long id) {
         userRepo.deleteAllById(Arrays.asList(id));
     }
-    
+/*
+    @GetMapping("/getUser/{email}")
+    @ResponseBody
+    public String findUserByEmail(@PathVariable(email = "email") String email){
+        List<User> users = userRepo.findAll();
+        for(User u : users){
+            if(u.getEmail().equals(email)){
+                return "Found user with email: " + email;
+            }
+        }
+
+        return "User not found!!!";
+    }
+   */ 
 }

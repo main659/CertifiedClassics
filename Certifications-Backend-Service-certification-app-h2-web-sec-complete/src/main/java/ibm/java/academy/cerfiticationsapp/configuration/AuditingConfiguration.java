@@ -17,6 +17,6 @@ public class AuditingConfiguration {
           if you are using spring security, you can get the currently logged username with following code segment.
           SecurityContextHolder.getContext().getAuthentication().getName()
          */
-        return () -> Optional.ofNullable("Attila");
+        return () -> Optional.ofNullable("MartinS");
     }
 }
