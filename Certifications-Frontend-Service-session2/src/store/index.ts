@@ -11,6 +11,8 @@ export default new Vuex.Store({
     password: "",
     loggedIn: false,
     certifications: [],
+
+    isAdmin: false,
   },
   mutations: {
     emailMutation(state, value) {
@@ -30,6 +32,9 @@ export default new Vuex.Store({
     certificationsMutation(state, value) {
       state.certifications = value;
     },
+    isAdminMutation(state, value){
+      state.isAdmin = value;
+    },
   },
   getters: {
     email(state: any) {
@@ -44,14 +49,31 @@ export default new Vuex.Store({
     certifications(state) {
       return state.certifications;
     },
+    isAdmin(state){
+      return state.isAdmin;
+    }
   },
   actions: {
     loginToApp({ commit, rootState }) {
       console.log(rootState.email);
       // TODO login via backend API
-      commit("loggedInMutation", true);
-      localStorage.setItem("loggedIn", "true");
-      router.push("/");
+      axios.get("http://localhost:8080/users/search/email",{
+        params:{
+          email: this.state.email
+        }
+      }).then((result) =>{
+        console.log("Found loading page....");
+        commit("loggedInMutation", true);
+        localStorage.setItem("loggedIn", "true");
+        router.push("/");
+
+      }).catch(function (error) {
+        if(error.result){
+          console.log("Not found: " + error.result.status);
+        }
+      })
+     
+      
     },
     async createCertificationRequest(
       { commit, rootState },

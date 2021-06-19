@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import CertificationDetail from "../views/CertificationDetail.vue";
 import Profile from "../views/Profile.vue";
+import { component } from "vue/types/umd";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes: Array<RouteConfig> = [
     path: "/certificationDetail/:id",
     name: "CertificationDetail",
     component: CertificationDetail,
+  },
+  {
+    path: "/adminPage",
+    name: "AdminPage",
+    component: AdminPage,
   },
 ];
 

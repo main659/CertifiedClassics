@@ -6,7 +6,7 @@
     <v-spacer />
     <router-link to="/profile" tag="span" class="pointerClass">
       <span>ADMIN PAGE</span>
-      <v-icon>mdi-omega</v-icon>
+      <prepend-icon>mdi-omega</prepend-icon>
     </router-link>
     <v-spacer />
     <span class="pointerClass" @click="logout">
