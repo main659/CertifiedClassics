@@ -35,7 +35,12 @@ export default new Vuex.Store({
       state.certifications = value;
     },
     isAdminMutation(state, value){
-      state.isAdmin = value;
+      console.log("isAdminnMutation: " + value);
+      if (value === null) {
+        state.isAdmin = false;
+      } else {
+        state.isAdmin = value;
+      }
     },
     notFoundMutation(state,value){
       state.notFound = value;
@@ -73,6 +78,7 @@ export default new Vuex.Store({
         commit("loggedInMutation", true);
         commit("isAdminMutation",result.data.admin);
         localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("isAdmin",result.data.admin);
         router.push("/");
         
 
@@ -81,6 +87,26 @@ export default new Vuex.Store({
       })
      
       
+    },
+    deleteUser(state,userEmail){
+      axios.delete("http://localhost:8080/deleteUserByEmail", {
+        params:{
+          email: userEmail,
+          adminEmail: this.state.email
+        }
+      }).then((result)=>{
+        console.log("DONE");
+      })
+    },
+    promoteUser(state,userEmail){
+      axios.get("http://localhost:8080/promoteManager",{
+        params:{
+          userEmail: userEmail,
+          adminEmail: this.state.email
+        }
+      }).then((result)=>{
+        console.log("PROMOTED");
+      })
     },
     async createCertificationRequest(
       { commit, rootState },

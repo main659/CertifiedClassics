@@ -1,8 +1,21 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog width="500">
       <template v-slot:activator="{ on }">
-        <v-btn class="error" dark v-on="on">Delete User</v-btn>
+        <v-btn
+          color="error"
+          elevation="2"
+          large
+          dark
+          v-on="on"
+          
+  class="ma-2"
+          style="width:200px;"
+        >
+          <span class="text-truncate" style="width:1500px;"
+            >Delete User</span
+          ></v-btn
+        >
       </template>
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title
@@ -11,20 +24,22 @@
         <v-form class="px-3">
           <v-text-field
             label="Email"
-            v-model="email"
+            v-model="userEmail"
             prepend-icon="mdi-account"
-	    :rules="emailRules"
+            :rules="emailRules"
           ></v-text-field>
 
-	  <v-text-field
+          <v-text-field
             label="Admin Password"
             v-model="password"
             prepend-icon="mdi-account"
-	    :rules="minRules"
-	    type="password"
+            :rules="minRules"
+            type="password"
           ></v-text-field>
 
-	  <v-btn text class="error mx-0 mt-3" @click="submit">Delete User</v-btn>
+          <v-btn text class="error mx-0 mt-3" @click="deleteUser(userEmail)"
+            >Delete User</v-btn
+          >
         </v-form>
       </v-card>
     </v-dialog>
@@ -32,10 +47,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      email: "",
+      userEmail: "",
       password: "",
       emailRules: [
         value => !!value || "Email is required",
@@ -44,10 +60,8 @@ export default {
       minRules: [value => value.length >= 8 || "Min 8 characters"]
     };
   },
-  methods:{
-	  submit(){
-		  console.log(this.email, this.password)
-	  }
+  methods: {
+    ...mapActions(["deleteUser"])
   }
 };
 </script>

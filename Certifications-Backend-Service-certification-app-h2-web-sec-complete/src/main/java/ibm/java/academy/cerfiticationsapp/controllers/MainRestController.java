@@ -2,6 +2,7 @@ package ibm.java.academy.cerfiticationsapp.controllers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,21 @@ public class MainRestController {
         return userRepo.findAll();
     }
 
+    @GetMapping(path = "/promoteManager/{userEmail}/{adminEmail}")
+    @ResponseBody
+    public void promoteManager(@PathVariable(name = "userEmail") String userEmail, @PathVariable(name = "adminEmail") String adminEmail){
+        Optional<User> admin = userRepo.findByEmail(adminEmail);
+       /* if(admin!=null && admin.get().isAdmin()){
+            Optional<User> user = userRepo.findByEmail(userEmail);
+            user.get().setManager(true);
+            userRepo.save(user.get());
+        }*/
+
+        Optional<User> user = userRepo.findByEmail(userEmail);
+        user.get().setManager(true);
+        userRepo.save(user.get());
+    }
+
     @PostMapping(path = "/add-user", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public User addUser(@RequestBody User user) {
@@ -59,15 +75,17 @@ public class MainRestController {
 
     @DeleteMapping("/deleteUserByEmail")
     @ResponseBody
-    public void deleteUserByEmail(@RequestParam("email") String email){
-         List<User> users = users();
-         for(User u : users){
-             if(u.getEmail().equals(email)){
-                 deleteUser(u.getId());
-                 return;
-             }
-         }
+    public void deleteUserByEmail(@RequestParam("email") String email, @RequestParam("adminEmail") String adminMail){
+        Optional<User> admin = userRepo.findByEmail(adminMail);
+        /*if(admin!=null && admin.get().isAdmin()){
+            Optional<User> user = userRepo.findByEmail(email);
+            userRepo.delete(user.get());
+        }*/
+        Optional<User> user = userRepo.findByEmail(email);
+            userRepo.delete(user.get());
+
     }
+
 /*
     @GetMapping("/getUser/{email}")
     @ResponseBody

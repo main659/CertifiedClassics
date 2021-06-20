@@ -24,7 +24,7 @@ export default {
     HeaderAdmin
   },
   computed: {
-    ...mapGetters(["loggedIn"]),
+    ...mapGetters(["loggedIn", "isAdmin"]),
 
     changeHeader() {
       return store.getters["isAdmin"]
@@ -38,12 +38,14 @@ export default {
   },
   created() {
     this.loggedInMutation(localStorage.getItem("loggedIn"));
+    this.isAdminMutation(localStorage.getItem("isAdmin"));
     if (this.loggedIn == false) {
       this.$router.push("/login");
     }
+    
   },
   methods: {
-    ...mapMutations(["loggedInMutation"])
+    ...mapMutations(["loggedInMutation","isAdminMutation"])
   }
 };
 </script>
