@@ -4,9 +4,10 @@
       <h2>Certifications@IBM</h2>
     </router-link>
     <v-spacer />
-    <router-link to="/profile" tag="span" class="pointerClass">
+    <router-link to="/adminPage" tag="span" class="pointerClass">
+      <v-icon>mdi-alpha</v-icon>
       <span>ADMIN PAGE</span>
-      <prepend-icon>mdi-omega</prepend-icon>
+      <v-icon>mdi-omega</v-icon>
     </router-link>
     <v-spacer />
     <span class="pointerClass" @click="logout">

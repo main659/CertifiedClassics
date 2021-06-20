@@ -5,11 +5,11 @@ insert into certification(id,name,url, price, version) values (10003,'Spring Boo
 insert into certification(id,name,url, price, version) values (10004,'SAP Admin','https://spa.com', null,0);
 insert into certification(id,name,url, price, version) values (10005,'Oracle 12c Admin','https://oracle.com', 200,0);
 
-insert into user(id,name,surname,email) values(10011,'Elon','Musk','emusk@tesla.com');
-insert into user(id,name,surname,email) values(10012,'Tom','Paul','tpaul@tesla.com');
-insert into user(id,name,surname,email) values(10013,'Tom','Black','tblack@tesla.com');
-insert into user(id,name,surname,email) values(10014,'Zac','Klop','zklop@tesla.com');
-insert into user(id,name,surname,email) values(10015,'Tom','Rodgers','trodgers@tesla.com');
+insert into user(id,name,surname,email,isAdmin,isManager) values(10011,'Elon','Musk','emusk@tesla.com',true,false);
+insert into user(id,name,surname,email,isAdmin,isManager) values(10012,'Tom','Paul','tpaul@tesla.com',false,false);
+insert into user(id,name,surname,email,isAdmin,isManager) values(10013,'Tom','Black','tblack@tesla.com',false,false);
+insert into user(id,name,surname,email,isAdmin,isManager) values(10014,'Zac','Klop','zklop@tesla.com',false,false);
+insert into user(id,name,surname,email,isAdmin,isManager) values(10015,'Tom','Rodgers','trodgers@tesla.com',false,false);
 
 insert into voucher(id,state,vouchercode,validUntil,certification_id) values (10020,'NEW','VC1234',sysdate,10001);
 

@@ -63,7 +63,6 @@ export default new Vuex.Store({
   },
   actions: {
     loginToApp({ commit, rootState }) {
-      console.log(rootState.email);
       // login via backend API:
       axios.get("http://localhost:8080/users/search/email",{
         params:{
@@ -72,8 +71,10 @@ export default new Vuex.Store({
       }).then((result) =>{
         console.log("Found loading page....");
         commit("loggedInMutation", true);
+        commit("isAdminMutation",result.data.admin);
         localStorage.setItem("loggedIn", "true");
         router.push("/");
+        
 
       }).catch(error => {
         commit("notFoundMutation", true);

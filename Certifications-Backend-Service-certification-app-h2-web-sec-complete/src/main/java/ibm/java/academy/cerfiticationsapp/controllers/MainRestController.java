@@ -56,6 +56,18 @@ public class MainRestController {
     public void deleteUser(@RequestParam("id") Long id) {
         userRepo.deleteAllById(Arrays.asList(id));
     }
+
+    @DeleteMapping("/deleteUserByEmail")
+    @ResponseBody
+    public void deleteUserByEmail(@RequestParam("email") String email){
+         List<User> users = users();
+         for(User u : users){
+             if(u.getEmail().equals(email)){
+                 deleteUser(u.getId());
+                 return;
+             }
+         }
+    }
 /*
     @GetMapping("/getUser/{email}")
     @ResponseBody

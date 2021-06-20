@@ -31,14 +31,20 @@ public class User {
 
 	String email;
 
+    boolean isAdmin;
+
+    boolean isManager;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     //@JsonManagedReference
     @JsonIgnoreProperties("user")
     List<Voucher> vouchers;
 
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, String email, boolean isAdmin, boolean isManager) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.isAdmin = isAdmin;
+        this.isManager = isManager;
     }
 }
