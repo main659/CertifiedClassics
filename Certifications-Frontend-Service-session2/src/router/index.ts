@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import CertificationDetail from "../views/CertificationDetail.vue";
 import Profile from "../views/Profile.vue";
 import { component } from "vue/types/umd";
+import AdminPage from "../views/AdminPage.vue";
 
 Vue.use(VueRouter);
 

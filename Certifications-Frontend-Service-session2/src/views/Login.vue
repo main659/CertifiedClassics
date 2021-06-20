@@ -26,6 +26,15 @@
                 v-model="password"
               >
               </v-text-field>
+              <v-alert
+                v-show="errorMessage"
+                color="red"
+                dense
+                elevation="5"
+                outlined
+                type="error"
+                >User not found in DB, please create an account</v-alert
+              >
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -70,6 +79,14 @@ export default {
       },
       set(value) {
         this.$store.commit("passwordMutation", value);
+      }
+    },
+    errorMessage: {
+      get() {
+        return this.$store.getters.notFound;
+      },
+      set(value) {
+        this.$store.commit("notFoundMutation", value);
       }
     }
   },

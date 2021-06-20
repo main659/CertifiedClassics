@@ -13,6 +13,8 @@ export default new Vuex.Store({
     certifications: [],
 
     isAdmin: false,
+    notFound: false,
+
   },
   mutations: {
     emailMutation(state, value) {
@@ -35,6 +37,9 @@ export default new Vuex.Store({
     isAdminMutation(state, value){
       state.isAdmin = value;
     },
+    notFoundMutation(state,value){
+      state.notFound = value;
+    }
   },
   getters: {
     email(state: any) {
@@ -51,12 +56,15 @@ export default new Vuex.Store({
     },
     isAdmin(state){
       return state.isAdmin;
+    },
+    notFound(state){
+      return state.notFound;
     }
   },
   actions: {
     loginToApp({ commit, rootState }) {
       console.log(rootState.email);
-      // TODO login via backend API
+      // login via backend API:
       axios.get("http://localhost:8080/users/search/email",{
         params:{
           email: this.state.email
@@ -67,10 +75,8 @@ export default new Vuex.Store({
         localStorage.setItem("loggedIn", "true");
         router.push("/");
 
-      }).catch(function (error) {
-        if(error.result){
-          console.log("Not found: " + error.result.status);
-        }
+      }).catch(error => {
+        commit("notFoundMutation", true);
       })
      
       
