@@ -4,6 +4,11 @@
       <h2>Certifications@IBM</h2>
     </router-link>
     <v-spacer />
+    <router-link to="/vouchers" tag="span" class="pointerClass">
+      <span>Vouchers</span>
+      <v-icon>mdi-alpha-v-box</v-icon>
+    </router-link>
+    <v-spacer />
     <router-link to="/profile" tag="span" class="pointerClass">
       <span>Profile</span>
       <v-icon>mdi-account</v-icon>

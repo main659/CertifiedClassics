@@ -2,11 +2,14 @@ package ibm.java.academy.cerfiticationsapp.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +26,7 @@ import lombok.NoArgsConstructor;
 public class Voucher {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	
 	@Enumerated(EnumType.STRING)
@@ -39,12 +43,13 @@ public class Voucher {
     }
 	
 	@JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "certification_id", insertable = false, updatable = false, nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @JoinColumn(name = "certification_id", insertable = true, updatable = false, nullable = false)
     private Certification certification;
     
-    @JoinColumn(name = "user_id")
+    
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", insertable = true, updatable = true, nullable = true)
     @JsonIgnoreProperties("vouchers")
     //@JsonBackReference
     private User user;
