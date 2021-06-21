@@ -1,5 +1,8 @@
 <template>
-  <div>{{ currentVoucher.voucherCode }}</div>
+  <div>
+    {{ currentVoucher.voucherCode }}
+  
+  </div>
 </template>
 
 <script>
@@ -19,7 +22,7 @@ export default {
     );
   },
   computed: {
-    ...mapGetters(["vouchers"]),
+    ...mapGetters(["vouchers"])
   },
 };
 </script>

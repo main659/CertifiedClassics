@@ -2,10 +2,10 @@
   <div>
     <v-card width="300" style="margin-left:30px" elevation="7">
       <v-card-title>{{ voucher.voucherCode }}</v-card-title>
-      <v-card-subtitle>{{ voucher.validUntil }}</v-card-subtitle>
+      <v-card-subtitle>Valid until: {{ voucher.validUntil }}</v-card-subtitle>
       <div style="height: 50px">
         <v-card-text class="align-end fill-height">
-          {{ voucher.state }}
+          State: {{ voucher.state }}
         </v-card-text>
       </div>
     </v-card>

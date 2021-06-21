@@ -5,66 +5,117 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">
+          <v-btn
+            color="primary"
+            @click.stop="dialog = true"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
             Add new
           </v-btn>
         </template>
         <v-card>
-          <v-card-title>
-            <span class="text-h5">Create Voucher</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Voucher Code*"
-                    type="text"
-                    required
-                    v-model="vouchercode"
-                  ></v-text-field>
-                </v-col>
-                
-                <v-col cols="12" sm="12">
-                  <v-select
-                    :items="certifications"
-                    :item-text="item => `${item.name}`"
-                    item-value="id"
-                    label="Certification"
-                    v-model="certificationid"
-                  ></v-select>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select
-                    :items="['NEW', 'ACTIVE', 'PROPOSED']"
-                    label="State*"
-                    required
-                    v-model="states"
-                  ></v-select>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select
-                    :items="users"
-                    label="User*"
-                    required
-                    :item-text="item => `${item.name} ${item.surname}`"
-                    item-value="id"
-                    v-model="userid"
-                  ></v-select>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              Close
-            </v-btn>
-            <v-btn color="blue darken-1" text @click="sendNewVoucherDialog">
-              Save
-            </v-btn>
-          </v-card-actions>
+          <v-form ref="newVoucherForm" v-model="valid">
+            <v-card-title>
+              <span class="text-h5">Create Voucher</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Voucher Code*"
+                      type="text"
+                      required
+                      :rules="voucherCodeRules"
+                      v-model="vouchercode"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="12">
+                    <v-select
+                      :items="certifications"
+                      :item-text="item => `${item.name}`"
+                      item-value="id"
+                      label="Certification"
+                      :rules="certificationRules"
+                      v-model="certificationid"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-menu
+                      ref="menu"
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      :return-value.sync="date"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="date"
+                          label="Valid until"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" no-title scrollable>
+                        <v-spacer></v-spacer>
+                        <v-btn text color="primary" @click="menu = false">
+                          Cancel
+                        </v-btn>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="$refs.menu.save(date)"
+                        >
+                          OK
+                        </v-btn>
+                      </v-date-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-select
+                      :items="['NEW', 'ACTIVE', 'PROPOSED']"
+                      label="State*"
+                      required
+                      :rules="stateRules"
+                      v-model="states"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-select
+                      :items="users"
+                      label="User*"
+                      required
+                      :item-text="item => `${item.name} ${item.surname}`"
+                      item-value="id"
+                      v-model="userid"
+                    ></v-select>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <small>*indicates required field</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialog = false">
+                Close
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                :disabled="!valid"
+                text
+                @click="sendNewVoucherDialog"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
       </v-dialog>
     </v-row>
@@ -133,29 +184,49 @@ export default Vue.extend({
       this.certificationsMutation(data._embedded.certifications);
     },
     sendNewVoucherDialog() {
-      this.$store.dispatch("createVoucherRequest", {
+      if (this.userid != null) {
+        this.$store.dispatch("createVoucherRequest", {
           //eslint-disable-next-line @typescript-eslint/camelcase
-        certification: {
+          certification: {
             id: this.certificationid
-        },
-        state: this.states,
-        user: {
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          id: this.userid
-        },
-        validUntil: "2021-06-21",
-        voucherCode: this.vouchercode
-      });
+          },
+          state: this.states,
+          user: {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            id: this.userid
+          },
+          validUntil: "2021-06-21",
+          voucherCode: this.vouchercode
+        });
+        this.dialog = false;
+      } else {
+        this.$store.dispatch("createVoucherRequest", {
+          //eslint-disable-next-line @typescript-eslint/camelcase
+          certification: {
+            id: this.certificationid
+          },
+          state: this.states,
+          validUntil: this.date,
+          voucherCode: this.vouchercode
+        });
+        this.dialog = false;
+      }
     }
   },
   data() {
     return {
+      valid: true,
       dialog: false,
       certificationid: "",
       states: "",
-      userid: "",
+      userid: null,
       validuntil: "",
-      vouchercode: ""
+      vouchercode: "",
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      voucherCodeRules: [v => !!v || "Voucher code is required"],
+      stateRules: [v => !!v || "State is required"],
+      certificationRules: [v => !!v || "Certification is required"]
     };
   }
 });
