@@ -2,6 +2,7 @@ package ibm.java.academy.cerfiticationsapp.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,8 +33,10 @@ public class User {
 
 	String surname;
 
+    @Column(unique=true)
 	String email;
 
+    @Column(unique=true)
     String password;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

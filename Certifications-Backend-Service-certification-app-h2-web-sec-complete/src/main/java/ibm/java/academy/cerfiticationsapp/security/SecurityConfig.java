@@ -51,9 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests(
                 authorizeRequests -> authorizeRequests
                 .antMatchers("/add-user**").permitAll()
-                .anyRequest().authenticated()                
+                .antMatchers("/login**").permitAll()
+                .anyRequest().authenticated()       
             )
-            .httpBasic().realmName("Students");
+            .httpBasic();
         http.headers().frameOptions().disable();
     }
 
