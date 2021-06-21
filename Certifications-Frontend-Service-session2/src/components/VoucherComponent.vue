@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card width="300" elevation="7">
+    <v-card width="300" style="margin-left:30px" elevation="7">
       <v-card-title>{{ voucher.voucherCode }}</v-card-title>
       <v-card-subtitle>{{ voucher.validUntil }}</v-card-subtitle>
       <div style="height: 50px">
