@@ -73,7 +73,7 @@ class CerfiticationsAppApplicationTests {
 	void saveCertificationSeqTest1(@Autowired CertificationService certService, @Autowired UserJpaRepository userRepository) {
 		Certification certification = new Certification("My seq test1", "https://mycert.com", BigDecimal.valueOf(200), "EUR", State.ACTIVE);
 		Certification certification2 = new Certification("My seq test2", "https://mycert.com", BigDecimal.valueOf(200), "EUR", State.ACTIVE);
-		User user = new User("Jozko", "Mrkvicka", "fajnamrkva@damaca.sk");
+		User user = new User("Jozko", "Mrkvicka", "fajnamrkva@damaca.sk", "HelloWorld");
 	    certService.saveCertification(certification);
 		certService.saveCertification(certification2);
 		userRepository.save(user);
