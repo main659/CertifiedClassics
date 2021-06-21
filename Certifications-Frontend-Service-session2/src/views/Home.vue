@@ -37,7 +37,7 @@ import axios from "axios";
 export default Vue.extend({
   name: "Home",
   components: {
-    CertificationItem,
+    CertificationItem
   },
   computed: {
     ...mapGetters(["certifications"]),

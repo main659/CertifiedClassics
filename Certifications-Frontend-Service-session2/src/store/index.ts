@@ -98,12 +98,12 @@ export default new Vuex.Store({
         console.log("DONE");
       })
     },
-    promoteUser(state,userEmail){
-      axios.get("http://localhost:8080/promoteManager",{
+    promoteUser(rootState,userEmail){
+      axios.get("http://localhost:8080/promoteManager/",{
         params:{
-          userEmail: userEmail,
-          adminEmail: this.state.email
+          userEmail: userEmail
         }
+        
       }).then((result)=>{
         console.log("PROMOTED");
       })

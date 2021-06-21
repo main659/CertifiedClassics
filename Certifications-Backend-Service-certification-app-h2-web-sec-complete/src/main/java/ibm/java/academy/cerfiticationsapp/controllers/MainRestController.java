@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,19 +47,23 @@ public class MainRestController {
         return userRepo.findAll();
     }
 
-    @GetMapping(path = "/promoteManager/{userEmail}/{adminEmail}")
+    @GetMapping(path = "/promoteManager/")
     @ResponseBody
-    public void promoteManager(@PathVariable(name = "userEmail") String userEmail, @PathVariable(name = "adminEmail") String adminEmail){
-        Optional<User> admin = userRepo.findByEmail(adminEmail);
-       /* if(admin!=null && admin.get().isAdmin()){
+    public String promoteManager(@RequestParam(name = "userEmail", required=true) String userEmail){
+        /*Optional<User> admin = userRepo.findByEmail(adminEmail);
+        if(admin!=null && admin.get().isAdmin()){
             Optional<User> user = userRepo.findByEmail(userEmail);
             user.get().setManager(true);
             userRepo.save(user.get());
+            return "DONE";
         }*/
-
         Optional<User> user = userRepo.findByEmail(userEmail);
-        user.get().setManager(true);
-        userRepo.save(user.get());
+            user.get().setManager(true);
+            userRepo.save(user.get());
+            return "DONE";
+
+       
+
     }
 
     @PostMapping(path = "/add-user", consumes = "application/json", produces = "application/json")
@@ -77,27 +82,11 @@ public class MainRestController {
     @ResponseBody
     public void deleteUserByEmail(@RequestParam("email") String email, @RequestParam("adminEmail") String adminMail){
         Optional<User> admin = userRepo.findByEmail(adminMail);
-        /*if(admin!=null && admin.get().isAdmin()){
+        if(admin!=null && admin.get().isAdmin()){
             Optional<User> user = userRepo.findByEmail(email);
             userRepo.delete(user.get());
-        }*/
-        Optional<User> user = userRepo.findByEmail(email);
-            userRepo.delete(user.get());
-
-    }
-
-/*
-    @GetMapping("/getUser/{email}")
-    @ResponseBody
-    public String findUserByEmail(@PathVariable(email = "email") String email){
-        List<User> users = userRepo.findAll();
-        for(User u : users){
-            if(u.getEmail().equals(email)){
-                return "Found user with email: " + email;
-            }
         }
-
-        return "User not found!!!";
+        
     }
-   */ 
+
 }
