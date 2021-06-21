@@ -35,7 +35,7 @@ public class User {
 
     boolean isManager;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     //@JsonManagedReference
     @JsonIgnoreProperties("user")
     List<Voucher> vouchers;

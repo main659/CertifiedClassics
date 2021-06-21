@@ -78,15 +78,17 @@ public class MainRestController {
         userRepo.deleteAllById(Arrays.asList(id));
     }
 
-    @DeleteMapping("/deleteUserByEmail")
+    @DeleteMapping("/deleteUserByEmail/")
     @ResponseBody
-    public void deleteUserByEmail(@RequestParam("email") String email, @RequestParam("adminEmail") String adminMail){
-        Optional<User> admin = userRepo.findByEmail(adminMail);
+    public String deleteUserByEmail(@RequestParam("userEmail") String email, @RequestParam("adminEmail") String adminMail){
+        /*Optional<User> admin = userRepo.findByEmail(adminMail);
         if(admin!=null && admin.get().isAdmin()){
             Optional<User> user = userRepo.findByEmail(email);
             userRepo.delete(user.get());
-        }
-        
+        }*/
+        Optional<User> user = userRepo.findByEmail(email);
+            userRepo.delete(user.get());
+        return "DONE";
     }
 
 }

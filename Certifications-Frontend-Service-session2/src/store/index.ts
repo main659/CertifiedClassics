@@ -89,9 +89,9 @@ export default new Vuex.Store({
       
     },
     deleteUser(state,userEmail){
-      axios.delete("http://localhost:8080/deleteUserByEmail", {
+      axios.delete("http://localhost:8080/deleteUserByEmail/", {
         params:{
-          email: userEmail,
+          userEmail: userEmail,
           adminEmail: this.state.email
         }
       }).then((result)=>{
