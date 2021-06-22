@@ -3,22 +3,34 @@ package ibm.java.academy.cerfiticationsapp.controllers;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import ibm.java.academy.cerfiticationsapp.model.User;
+import ibm.java.academy.cerfiticationsapp.model.Voucher;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
+import ibm.java.academy.cerfiticationsapp.request.VoucherUpdateRequest;
+import ibm.java.academy.cerfiticationsapp.response.MessageResponse;
+import ibm.java.academy.cerfiticationsapp.service.VoucherService;
 
-@Controller
+@RestController
 public class MainRestController {
-    
+    @Autowired
+    private VoucherService voucherService;
+
     @Autowired 
     UserJpaRepository userRepo;
 
@@ -57,4 +69,14 @@ public class MainRestController {
         userRepo.deleteAllById(Arrays.asList(id));
     }
     
+    @RequestMapping(path = "/vouchers/update/" , method = RequestMethod.POST)
+	public ResponseEntity<?> udpateVoucher(@Valid @RequestBody VoucherUpdateRequest updateRequest) {
+		Voucher voucher = voucherService.assignVoucherToUser(updateRequest.getVoucherId(), updateRequest.getVoucherId());
+		if(voucher == null){
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Something is wrong!"));
+		}
+		return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+	}
 }
