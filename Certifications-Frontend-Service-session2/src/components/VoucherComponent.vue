@@ -5,7 +5,7 @@
       <v-card-subtitle>Valid until: {{ voucher.validUntil }}</v-card-subtitle>
       <div style="height: 50px">
         <v-card-text class="align-end fill-height">
-          State: {{ voucher.state }}
+          State:{{ voucher.state }}
         </v-card-text>
       </div>
     </v-card>

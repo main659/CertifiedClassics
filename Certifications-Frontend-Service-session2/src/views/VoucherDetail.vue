@@ -43,9 +43,6 @@
         </v-footer>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
-          </v-btn>
           <v-btn color="blue darken-1" text @click="sendUpdateVoucherDialog">
             Save
           </v-btn>
@@ -75,23 +72,17 @@ export default {
     sendUpdateVoucherDialog() {
       if (this.userid != null) {
         this.$store.dispatch("createUpdateVoucherRequest", {
-          user: {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            id: this.userid
-          }
+          userId: this.userid,
+          voucherId: this.currentVoucher.id
         });
-        this.dialog = false;
+        this.$router.push("/");
       } else {
         this.$store.dispatch("createUpdateVoucherRequest", {
           //eslint-disable-next-line @typescript-eslint/camelcase
-          certification: {
-            id: this.certificationid
-          },
-          state: this.states,
-          validUntil: this.date,
-          voucherCode: this.vouchercode
+          userId: this.userid,
+          voucherId: this.currentVoucher.id
         });
-        this.dialog = false;
+        this.$router.push("/");
       }
     },
     async getUser() {
