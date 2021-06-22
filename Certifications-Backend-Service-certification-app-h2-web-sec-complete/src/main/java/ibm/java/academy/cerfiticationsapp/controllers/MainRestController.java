@@ -71,7 +71,7 @@ public class MainRestController {
     
     @RequestMapping(path = "/vouchers/update/" , method = RequestMethod.POST)
 	public ResponseEntity<?> udpateVoucher(@Valid @RequestBody VoucherUpdateRequest updateRequest) {
-		Voucher voucher = voucherService.assignVoucherToUser(updateRequest.getVoucherId(), updateRequest.getVoucherId());
+		Voucher voucher = voucherService.assignVoucherToUser(updateRequest.getVoucherId(), updateRequest.getUserId());
 		if(voucher == null){
 			return ResponseEntity
 					.badRequest()
