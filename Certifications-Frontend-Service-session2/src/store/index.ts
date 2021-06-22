@@ -82,6 +82,24 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    async createUpdateVoucherRequest(
+      { commit, rootState },
+      voucherRequest
+    ) {
+      const url = "http://localhost:8080/vouchers/";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.put(url, voucherRequest, {
+          headers
+        });
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async createCertificationRequest(
       { commit, rootState },
       certificationRequest
@@ -100,6 +118,8 @@ export default new Vuex.Store({
         console.log(err);
       }
     }
+    
   },
+  
   modules: {}
 });

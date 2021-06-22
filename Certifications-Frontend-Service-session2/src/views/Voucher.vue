@@ -195,7 +195,7 @@ export default Vue.extend({
             // eslint-disable-next-line @typescript-eslint/camelcase
             id: this.userid
           },
-          validUntil: "2021-06-21",
+          validUntil: this.date,
           voucherCode: this.vouchercode
         });
         this.dialog = false;
