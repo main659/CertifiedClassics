@@ -13,7 +13,7 @@
                 prepend-icon="mdi-account"
                 label="Login"
                 type="text"
-                :counter="20"
+                :counter="30"
                 :rules="emailRules"
                 v-model="email"
               >
