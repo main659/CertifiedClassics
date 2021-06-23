@@ -186,6 +186,7 @@ export default new Vuex.Store({
       const headers = {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token"),
+        "auth_token": localStorage.getItem("auth_token"),
       };
       try {
         const { data } = await axios.put(url, certificationRequest, {
@@ -205,6 +206,7 @@ export default new Vuex.Store({
       const headers = {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token"),
+        "auth_token": localStorage.getItem("auth_token"),
       };
       try {
         const { data } = await axios.delete(url);
