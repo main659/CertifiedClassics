@@ -9,7 +9,7 @@
       <v-icon>mdi-alpha-v-box</v-icon>
     </router-link>
     <router-link to="/registration" tag="span" class="pointerClass">
-      <span>Registration</span>
+      <span v-if="!loggedIn">Registration</span>
       <v-icon></v-icon>
     </router-link>
     <v-spacer />
@@ -27,9 +27,11 @@
 
 <script>
 import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Header",
+
   methods: {
     logout() {
       this.$store.commit("loggedInMutation", false);
@@ -38,7 +40,8 @@ export default {
       location.reload();
     },
     ...mapActions(["logoutFromApp"]),
-  },
+    ...mapGetters(["loggedIn"])
+  }
 };
 </script>
 
