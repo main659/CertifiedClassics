@@ -6,12 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.auth0.jwt.JWT;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.jaas.JaasAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import ibm.java.academy.cerfiticationsapp.service.SecurityUserDetailsService;
-import lombok.extern.java.Log;
 
 import com.auth0.jwt.algorithms.Algorithm;
 
@@ -38,10 +37,7 @@ import javax.servlet.ServletException;
 
 @Configuration
 @EnableWebSecurity
-@Log
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    public final static String AUTHORIZATION_HEADER = "Authorization";
 
     @Autowired
     UserJpaRepository userRepo;
@@ -88,11 +84,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public class HeaderUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-        private String jwtAudience;
-        private String jwtIssuer;
-        private String jwtSecret;
-        private String jwtType;
-
         public HeaderUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
           super();
           this.setAuthenticationManager(authenticationManager);
@@ -114,6 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public Authentication attemptAuthentication(HttpServletRequest request,
         HttpServletResponse response) throws AuthenticationException {
             System.out.println("Attempted authentication");
+            System.out.println("with secret " + jwtSecret);
             String username = obtainUsername(request);
             String password = obtainPassword(request);
 

@@ -34,6 +34,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -114,12 +115,16 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
        String token = request.getHeader("auth_token");
        System.out.println(token);
        System.out.println("Got to here 4");
-       String user = JWT.require(Algorithm.HMAC512("secret"))
-                .build()
-                .verify(token)
-                .getSubject();
-                System.out.println("This is the user: " + user);
-      return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user, ""));
+       try{
+        String user = JWT.require(Algorithm.HMAC512("secret"))
+                    .build()
+                    .verify(token)
+                    .getSubject();
+                    System.out.println("This is the user: " + user);
+                    return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user, ""));
+        }catch(JWTDecodeException jde){
+            throw new JwtAuthenticationException("Exception: auth_token not propper Jwt token");
+        }
    }
 
    @Override

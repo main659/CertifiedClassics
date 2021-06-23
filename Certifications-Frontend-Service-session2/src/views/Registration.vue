@@ -59,10 +59,13 @@ export default {
   data() {
     return {
       validForm: true,
-      nameRules: [value => !!value || "Name is required"],
-      surnameRules: [value => !!value || "Surname is required"],
-      emailRules: [value => !!value || "Email is required"],
-      passwordRules: [value => !!value || "Password is required"]
+      nameRules: [(value) => !!(value) || "Name is required"],
+      surnameRules: [(value) => !!(value) || "Surname is required"],
+      emailRules: [(value) => !!(value) || "Email is required",
+                  (value) => /.+@.+/.test(value) || "Email must be valid",
+      ],
+      passwordRules: [(value) => !!value || "Password is required",
+      (value) => value.length >= 8 || "Min 8 characters"]
     };
   },
   computed: {
