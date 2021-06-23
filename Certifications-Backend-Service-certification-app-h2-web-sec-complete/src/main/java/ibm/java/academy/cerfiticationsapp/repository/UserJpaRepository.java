@@ -18,5 +18,6 @@ public interface UserJpaRepository extends JpaRepository<User, Long>{
     @RestResource(path = "email", rel = "email")
     public Optional<User> findByEmail(@Param("email") String email);
 
-    Optional<User> findByName(@Param("name") String username); 
+    @RestResource(path = "name", rel = "name")
+    public Optional<User> findByName(@Param("name") String username); 
 }

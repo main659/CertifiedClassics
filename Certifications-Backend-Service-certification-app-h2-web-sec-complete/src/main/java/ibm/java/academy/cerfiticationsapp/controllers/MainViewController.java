@@ -31,5 +31,4 @@ public class MainViewController {
         model.addAttribute("users", userRepo.findAll());
         return "listAll";
     }
-    
 }

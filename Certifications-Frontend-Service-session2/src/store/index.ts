@@ -2,19 +2,29 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router/index";
 import axios from "axios";
+import qs from "qs";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    name: "",
+    surname: "",
     email: "",
     password: "",
+    authToken: "",
     loggedIn: false,
     certifications: [],
     vouchers: [],
     users: []
   },
   mutations: {
+    nameMutation(state, value) {
+      state.name = value;
+    },
+    surnameMutation(state, value) {
+      state.surname = value;
+    },
     emailMutation(state, value) {
       state.email = value;
     },
@@ -40,6 +50,12 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    name(state: any) {
+      return state.name;
+    },
+    surname(state: any) {
+      return state.surname;
+    },
     email(state: any) {
       return state.email;
     },
@@ -60,18 +76,77 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    loginToApp({ commit, rootState }) {
-      console.log(rootState.email);
-      // TODO login via backend API
-      commit("loggedInMutation", true);
-      localStorage.setItem("loggedIn", "true");
-      router.push("/");
+    async logoutFromApp({ commit, rootState }) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "auth_token": localStorage.getItem("auth_token"),
+        }
+      };
+      
+      localStorage.removeItem("auth_token");
+      localStorage.setItem("loggedIn", "false");
+      router.push('/login');
+
+      const response = await axios.get('http://localhost:8080/logout', config);
+      console.log(response)
+  },
+    async createUser({ commit, rootState }) {
+
+      const body = JSON.stringify({
+        name: rootState.name,
+        surname: rootState.surname,
+        email: rootState.email,
+        password: rootState.password
+      });
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "auth_token": localStorage.getItem("auth_token"),
+        }
+      };
+
+      console.log(body);
+      
+      const response = await axios.post('http://localhost:8080/add-user', body, config)
+      .then(res => {
+        if(res.status === 200){
+          router.push('/login');
+        }
+      });
+  },
+    async loginToApp({ commit, rootState }) {
+
+        const body = qs.stringify({
+          username: rootState.email,
+          password: rootState.password
+        });
+  
+        const config = {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'access-control-expose-headers': 'Set-Cookie, auth_token',
+            'access-control-allow-headers': 'Content-Type, Custom-Header',
+             withCredentials: true
+          }
+        };
+        
+        const response = await axios.post('http://localhost:8080/login', body, config)
+        .then(res => {
+          if(res.status === 200){
+            localStorage.setItem("auth_token", res.headers['auth_token']);
+            localStorage.setItem("loggedIn", "true");
+            router.push('/');
+          }
+        });
     },
     async createVoucherRequest({ commit, rootState }, voucherRequest) {
       const url = "http://localhost:8080/vouchers/";
       const headers = {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: localStorage.getItem("token"),
+        "auth_token": localStorage.getItem("auth_token"),
       };
       try {
         const { data } = await axios.post(url, voucherRequest, {
@@ -89,7 +164,8 @@ export default new Vuex.Store({
       const url = "http://localhost:8080/vouchers/update/";
       const headers = {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: localStorage.getItem("token"),
+        "auth_token": localStorage.getItem("auth_token"),
       };
       try {
         const { data } = await axios.post(url, voucherRequest, {
@@ -105,20 +181,21 @@ export default new Vuex.Store({
       certificationRequest
     ) {
       const url = "http://localhost:8080/certifications/";
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token")
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "auth_token": localStorage.getItem("auth_token"),
+        }
       };
+
       try {
-        const { data } = await axios.post(url, certificationRequest, {
-          headers
-        });
+        const { data } = await axios.post(url, certificationRequest, config);
         console.log(data);
       } catch (err) {
         console.log(err);
       }
     }
-    
   },
   
   modules: {}

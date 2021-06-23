@@ -3,18 +3,11 @@ package ibm.java.academy.cerfiticationsapp.controllers;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RestController;
 
 import ibm.java.academy.cerfiticationsapp.model.User;
@@ -59,6 +51,7 @@ public class MainRestController {
     @PostMapping(path = "/add-user", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public User addUser(@RequestBody User user) {
+        System.out.println("Creating user: " + user.toString());
         User newUser = new User(user.getName(), user.getSurname(),
          user.getEmail(), passwordEncoder.encode(user.getPassword()));
         return userRepo.save(newUser);
@@ -69,11 +62,10 @@ public class MainRestController {
     public void deleteUser(@RequestParam("id") Long id) {
         userRepo.deleteAllById(Arrays.asList(id));
     }
-    
+
     @PostMapping("/login")
-    @ResponseBody
-    public ModelAndView login(HttpServletRequest request, HttpSession session){
-        return new ModelAndView("login");
+    public String showUser(){
+        return "Hello World";
     }
     @RequestMapping(path = "/vouchers/update/" , method = RequestMethod.POST)
 	public ResponseEntity<?> udpateVoucher(@Valid @RequestBody VoucherUpdateRequest updateRequest) {
@@ -85,4 +77,8 @@ public class MainRestController {
 		}
 		return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
 	}
+
+    @PostMapping("/logout")
+    @ResponseBody
+    public void logoutUser(){}
 }

@@ -1,6 +1,9 @@
 package ibm.java.academy.cerfiticationsapp.model;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,24 +18,37 @@ public class SecurityUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
+        final Set<GrantedAuthority> _grntdAuths = new HashSet<GrantedAuthority>();
+        List<Role> _roles = null;
+
+        if (user!=null) {
+            _roles = user.getRoles();
+        }
+
+        if (_roles!=null) {
+            for (Role _role : _roles) {
+                    _grntdAuths.add(_role);
+            }
+        }
+
+        return _grntdAuths;
     }
 
 
 
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        return null;
+        return user.getPassword();
     }
 
 
 
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
-        return null;
+        if (this.user == null) {
+            return null;
+        }
+        return user.getEmail();
     }
 
 

@@ -8,13 +8,17 @@
       <span>Vouchers</span>
       <v-icon>mdi-alpha-v-box</v-icon>
     </router-link>
+    <router-link to="/registration" tag="span" class="pointerClass">
+      <span>Registration</span>
+      <v-icon></v-icon>
+    </router-link>
     <v-spacer />
     <router-link to="/profile" tag="span" class="pointerClass">
       <span>Profile</span>
       <v-icon>mdi-account</v-icon>
     </router-link>
     <v-spacer />
-    <span class="pointerClass" @click="logout">
+    <span class="pointerClass" @click="logoutFromApp">
       <span>Logout</span>
       <v-icon>mdi-logout</v-icon>
     </span>
@@ -22,6 +26,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Header",
   methods: {
@@ -31,6 +37,7 @@ export default {
       localStorage.removeItem("loggedIn");
       location.reload();
     },
+    ...mapActions(["logoutFromApp"]),
   },
 };
 </script>
