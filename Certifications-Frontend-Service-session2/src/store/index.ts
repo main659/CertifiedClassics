@@ -182,6 +182,7 @@ export default new Vuex.Store({
       certificationRequest
     ) {
       const url = "http://localhost:8080/certifications/";
+      const urlMail = "http://localhost:8080/sendEmailToAll/"
 
       const config = {
         headers: {
@@ -191,8 +192,10 @@ export default new Vuex.Store({
       };
 
       try {
-        const { data } = await axios.post(url, certificationRequest, config);
+        const { data } = await axios.post(url, certificationRequest);
+        const response = await axios.get(urlMail, config);
         console.log(data);
+        console.log(response);
       } catch (err) {
         console.log(err);
       }

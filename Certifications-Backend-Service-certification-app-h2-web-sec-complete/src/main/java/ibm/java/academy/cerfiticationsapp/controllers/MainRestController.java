@@ -89,4 +89,17 @@ public class MainRestController {
         }
         return "redirect:/";  //Where you go after logout here.
     }
+
+    @GetMapping("/sendEmailToAll")
+    public String sendEmailToAll(){
+         
+        List<User> users = userRepo.findAll();
+        String s = "";
+        for(User u : users){
+            s += u.getEmail() + " ";
+        }
+
+        return "EMail sent to all users...";
+
+    }
 }
