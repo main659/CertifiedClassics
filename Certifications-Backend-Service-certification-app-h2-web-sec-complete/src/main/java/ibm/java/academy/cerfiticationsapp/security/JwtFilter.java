@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
+import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
+
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 
@@ -79,6 +81,9 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
            chain.doFilter(request, response);
    }
 
+   @Autowired
+   UserJpaRepository userRepo;
+
    @Override
    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
            throws AuthenticationException {
@@ -91,6 +96,8 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
                     .verify(token)
                     .getSubject();
                     System.out.println("This is the user: " + user);
+                
+                   // User userObject = userRepo.findByEmail(user);
                     return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user, ""));
         }catch(JWTDecodeException jde){
             throw new JwtAuthenticationException("Exception: auth_token not propper Jwt token");

@@ -129,7 +129,8 @@ export default new Vuex.Store({
             'Content-Type': 'application/x-www-form-urlencoded',
             'access-control-expose-headers': 'Set-Cookie, auth_token',
             'access-control-allow-headers': 'Content-Type, Custom-Header',
-             withCredentials: true
+             withCredentials: true,
+             "auth_token": localStorage.getItem("auth_token"),
           }
         };
         

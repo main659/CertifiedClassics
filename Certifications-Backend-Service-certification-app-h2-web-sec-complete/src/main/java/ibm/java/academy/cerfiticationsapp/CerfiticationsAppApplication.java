@@ -52,6 +52,19 @@ public class CerfiticationsAppApplication extends SpringBootServletInitializer i
 
 		//Assign skill to certification
 		//ctx.getBean(CertificationService.class).updateAndSave(10004L, null, Arrays.asList(20003L));
+		
+		try{
+			RestTemplate restTemplate = new RestTemplate();
+			final String baseUrl = "http://localhost:8080/add-user";
+			URI uri = new URI(baseUrl);
+			User user = new User("David", "Ocepek", "david.lumen@gmail.com", "HelloWorld");
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Content-Type", "application/json");  
+
+			HttpEntity<User> req = new HttpEntity<>(user, headers);
+			ResponseEntity<String> res = restTemplate.postForEntity(uri, req, String.class);
+		}catch(URISyntaxException e){}
 	}
 
 	@Autowired

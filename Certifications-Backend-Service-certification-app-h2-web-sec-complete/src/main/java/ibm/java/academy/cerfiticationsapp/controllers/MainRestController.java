@@ -27,6 +27,7 @@ import ibm.java.academy.cerfiticationsapp.model.Voucher;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import ibm.java.academy.cerfiticationsapp.request.VoucherUpdateRequest;
 import ibm.java.academy.cerfiticationsapp.response.MessageResponse;
+import ibm.java.academy.cerfiticationsapp.service.SendEmailService;
 import ibm.java.academy.cerfiticationsapp.service.VoucherService;
 
 @RestController
@@ -38,6 +39,10 @@ public class MainRestController {
     UserJpaRepository userRepo;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+      //email 
+      @Autowired
+      private SendEmailService sendEmailService;
 
     @GetMapping(path = "/hello/{name}/*/{age}")
     @ResponseBody
