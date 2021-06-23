@@ -2,6 +2,7 @@ package ibm.java.academy.cerfiticationsapp.controllers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,6 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +59,23 @@ public class MainRestController {
     @ResponseBody
     public List<User> users() {
         return userRepo.findAll();
+    }
+
+    @GetMapping("/getuser")
+    @ResponseBody
+    public User users(HttpServletRequest request) {
+        String token = request.getHeader("auth_token");
+        try{
+            String email = JWT.require(Algorithm.HMAC512("secret"))
+                        .build()
+                        .verify(token)
+                        .getSubject();
+                    
+                       Optional<User> userObject = userRepo.findByEmail(email);
+                       return userObject.orElse(new User());
+            }catch(JWTDecodeException jde){
+                return null;
+            }
     }
 
     @PostMapping(path = "/add-user", consumes = "application/json", produces = "application/json")
