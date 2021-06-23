@@ -1,5 +1,7 @@
 package ibm.java.academy.cerfiticationsapp;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,10 +13,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import ibm.java.academy.cerfiticationsapp.model.Skill;
+import ibm.java.academy.cerfiticationsapp.model.User;
 import ibm.java.academy.cerfiticationsapp.repository.SkillJpaRepository;
 import ibm.java.academy.cerfiticationsapp.service.CertificationService;
 import ibm.java.academy.cerfiticationsapp.service.VoucherService;
@@ -25,6 +29,10 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +52,23 @@ public class CerfiticationsAppApplication extends SpringBootServletInitializer i
 
 		//Assign skill to certification
 		//ctx.getBean(CertificationService.class).updateAndSave(10004L, null, Arrays.asList(20003L));
+
+		RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:8080/add-user";
+        URI uri;
+		try {
+			uri = new URI(baseUrl);
+			User user = new User("root", "root", "root", "root");
+
+        	HttpHeaders headers = new HttpHeaders();
+        	headers.set("Content-Type", "application/json");  
+
+        	HttpEntity<User> req = new HttpEntity<>(user, headers);
+        	ResponseEntity<String> res = restTemplate.postForEntity(uri, req, String.class);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Autowired
