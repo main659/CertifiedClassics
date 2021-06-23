@@ -29,8 +29,9 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
+            <v-btn color="secondary" @click="signUp">Create Account</v-btn>
             <v-btn :disabled="!validForm" color="primary" @click="loginToApp"
-              >Login</v-btn
+              >Sign In</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -48,11 +49,16 @@ export default {
     return {
       validForm: true,
       emailRules: [
-        (value) => !!value || "Email is required",
-        (value) => /.+@.+/.test(value) || "Email must be valid",
+        value => !!value || "Email is required",
+        value => /.+@.+/.test(value) || "Email must be valid"
       ],
-      minRules: [(value) => value.length >= 8 || "Min 8 characters"],
+      minRules: [value => value.length >= 8 || "Min 8 characters"]
     };
+  },
+  mounted(){
+    if (this.$store.getters.loggedIn == "true") {
+      this.$router.push('/');
+    }
   },
   computed: {
     email: {
@@ -61,7 +67,7 @@ export default {
       },
       set(value) {
         this.$store.commit("emailMutation", value);
-      },
+      }
     },
     password: {
       get() {
@@ -69,11 +75,20 @@ export default {
       },
       set(value) {
         this.$store.commit("passwordMutation", value);
-      },
-    },
+      }
+    }
   },
   methods: {
     ...mapActions(["loginToApp"]),
-  },
+    signUp(){
+      this.$router.push('/registration');
+    }
+  }
 };
 </script>
+
+<style scoped>
+.pointerClass {
+  cursor: pointer;
+}
+</style>

@@ -42,6 +42,7 @@
           </v-card-text>
         </v-card>
         <v-card-actions>
+            <v-btn color="secondary" @click="logIn">Login</v-btn>
           <v-btn :disabled="!validForm" color="primary" @click="createUser">
             Create User Account
           </v-btn>
@@ -59,14 +60,22 @@ export default {
   data() {
     return {
       validForm: true,
-      nameRules: [(value) => !!(value) || "Name is required"],
-      surnameRules: [(value) => !!(value) || "Surname is required"],
-      emailRules: [(value) => !!(value) || "Email is required",
-                  (value) => /.+@.+/.test(value) || "Email must be valid",
+      nameRules: [value => !!value || "Name is required"],
+      surnameRules: [value => !!value || "Surname is required"],
+      emailRules: [
+        value => !!value || "Email is required",
+        value => /.+@.+/.test(value) || "Email must be valid"
       ],
-      passwordRules: [(value) => !!value || "Password is required",
-      (value) => value.length >= 8 || "Min 8 characters"]
+      passwordRules: [
+        value => !!value || "Password is required",
+        value => value.length >= 8 || "Min 8 characters"
+      ]
     };
+  },
+  mounted(){
+    if (this.$store.getters.loggedIn == "true") {
+      this.$router.push('/');
+    }
   },
   computed: {
     name: {
@@ -103,7 +112,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["createUser"])
+    ...mapActions(["createUser"]),
+    logIn(){
+      this.$router.push('/login');
+    }
   }
 };
 </script>

@@ -23,7 +23,7 @@ export default {
   },
   created() {
     this.loggedInMutation(localStorage.getItem("loggedIn"));
-    if (this.loggedIn == false) {
+    if (this.loggedIn == 'false') {
       this.$router.push("/login");
     }
   },

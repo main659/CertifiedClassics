@@ -86,6 +86,7 @@ export default new Vuex.Store({
       
       localStorage.removeItem("auth_token");
       localStorage.setItem("loggedIn", "false");
+      commit("loggedInMutation", false);
       router.push('/login');
 
       const response = await axios.get('http://localhost:8080/logout', config);
