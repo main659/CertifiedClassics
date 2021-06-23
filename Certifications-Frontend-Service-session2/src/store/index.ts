@@ -11,6 +11,8 @@ export default new Vuex.Store({
     password: "",
     loggedIn: false,
     certifications: [],
+    vouchers: [],
+    users: []
   },
   mutations: {
     emailMutation(state, value) {
@@ -30,6 +32,12 @@ export default new Vuex.Store({
     certificationsMutation(state, value) {
       state.certifications = value;
     },
+    vouchersMutation(state, value) {
+      state.vouchers = value;
+    },
+    usersMutation(state, value) {
+      state.users = value;
+    }
   },
   getters: {
     email(state: any) {
@@ -44,6 +52,12 @@ export default new Vuex.Store({
     certifications(state) {
       return state.certifications;
     },
+    vouchers(state) {
+      return state.vouchers;
+    },
+    users(state) {
+      return state.users;
+    }
   },
   actions: {
     loginToApp({ commit, rootState }) {
@@ -53,6 +67,39 @@ export default new Vuex.Store({
       localStorage.setItem("loggedIn", "true");
       router.push("/");
     },
+    async createVoucherRequest({ commit, rootState }, voucherRequest) {
+      const url = "http://localhost:8080/vouchers/";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, voucherRequest, {
+          headers
+        });
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async createUpdateVoucherRequest(
+      { commit, rootState },
+      voucherRequest
+    ) {
+      const url = "http://localhost:8080/vouchers/update/";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, voucherRequest, {
+          headers
+        });
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async createCertificationRequest(
       { commit, rootState },
       certificationRequest
@@ -60,17 +107,19 @@ export default new Vuex.Store({
       const url = "http://localhost:8080/certifications/";
       const headers = {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
+        Authorization: localStorage.getItem("token")
       };
       try {
         const { data } = await axios.post(url, certificationRequest, {
-          headers,
+          headers
         });
         console.log(data);
       } catch (err) {
         console.log(err);
       }
-    },
+    }
+    
   },
-  modules: {},
+  
+  modules: {}
 });
