@@ -46,6 +46,7 @@ public class MainRestController {
     @PostMapping(path = "/add-user", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public User addUser(@RequestBody User user) {
+        System.out.println("Creating user: " + user.toString());
         User newUser = new User(user.getName(), user.getSurname(),
          user.getEmail(), passwordEncoder.encode(user.getPassword()));
         return userRepo.save(newUser);
@@ -56,10 +57,13 @@ public class MainRestController {
     public void deleteUser(@RequestParam("id") Long id) {
         userRepo.deleteAllById(Arrays.asList(id));
     }
-    
+
     @PostMapping("/login")
-    @ResponseBody
-    public ModelAndView login(HttpServletRequest request, HttpSession session){
-        return new ModelAndView("login");
+    public String showUser(){
+        return "Hello World";
     }
+
+    @PostMapping("/logout")
+    @ResponseBody
+    public void logoutUser(){}
 }

@@ -9,7 +9,7 @@
       <v-icon>mdi-account</v-icon>
     </router-link>
     <v-spacer />
-    <span class="pointerClass" @click="logout">
+    <span class="pointerClass" @click="logoutFromApp">
       <span>Logout</span>
       <v-icon>mdi-logout</v-icon>
     </span>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Header",
   methods: {
@@ -26,6 +28,7 @@ export default {
       localStorage.removeItem("loggedIn");
       location.reload();
     },
+    ...mapActions(["logoutFromApp"]),
   },
 };
 </script>
