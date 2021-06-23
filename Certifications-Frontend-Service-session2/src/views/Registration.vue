@@ -9,7 +9,7 @@
           <v-card-text>
             <v-form ref="form" v-model="validForm">
               <v-text-field
-                prepend-icon=""
+                prepend-icon="mdi-account"
                 label="Name"
                 type="text"
                 :rules="nameRules"
@@ -17,7 +17,7 @@
               >
               </v-text-field>
               <v-text-field
-                prepend-icon=""
+                prepend-icon="mdi-account"
                 label="Surname"
                 type="text"
                 :rules="surnameRules"
@@ -25,16 +25,16 @@
               >
               </v-text-field>
               <v-text-field
-                prepend-icon=""
+                prepend-icon="mdi-gmail"
                 label="Email Address"
                 type="text"
                 :rules="emailRules"
                 v-model="email"
               ></v-text-field>
               <v-text-field
-                prepend-icon=""
+                prepend-icon="mdi-lock"
                 label="Password"
-                type="text"
+                type="password"
                 :rules="passwordRules"
                 v-model="password"
               ></v-text-field>
