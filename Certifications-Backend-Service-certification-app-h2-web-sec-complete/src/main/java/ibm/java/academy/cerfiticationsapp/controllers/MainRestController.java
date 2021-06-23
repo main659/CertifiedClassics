@@ -27,6 +27,7 @@ import ibm.java.academy.cerfiticationsapp.model.Voucher;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import ibm.java.academy.cerfiticationsapp.request.VoucherUpdateRequest;
 import ibm.java.academy.cerfiticationsapp.response.MessageResponse;
+import ibm.java.academy.cerfiticationsapp.service.SendEmailService;
 import ibm.java.academy.cerfiticationsapp.service.VoucherService;
 
 @RestController
@@ -38,6 +39,10 @@ public class MainRestController {
     UserJpaRepository userRepo;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+      //email 
+      @Autowired
+      private SendEmailService sendEmailService;
 
     @GetMapping(path = "/hello/{name}/*/{age}")
     @ResponseBody
@@ -88,5 +93,18 @@ public class MainRestController {
             session.invalidate();
         }
         return "redirect:/";  //Where you go after logout here.
+    }
+
+    @GetMapping("/sendEmailToAll")
+    public String sendEmailToAll(){
+         
+        List<User> users = userRepo.findAll();
+        String s = "";
+        for(User u : users){
+            s += u.getEmail() + " ";
+        }
+
+        return "EMail sent to all users...";
+
     }
 }

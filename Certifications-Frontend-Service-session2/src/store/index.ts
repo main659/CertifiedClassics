@@ -128,7 +128,8 @@ export default new Vuex.Store({
             'Content-Type': 'application/x-www-form-urlencoded',
             'access-control-expose-headers': 'Set-Cookie, auth_token',
             'access-control-allow-headers': 'Content-Type, Custom-Header',
-             withCredentials: true
+             withCredentials: true,
+             "auth_token": localStorage.getItem("auth_token"),
           }
         };
         
@@ -181,6 +182,7 @@ export default new Vuex.Store({
       certificationRequest
     ) {
       const url = "http://localhost:8080/certifications/";
+      const urlMail = "http://localhost:8080/sendEmailToAll/"
 
       const config = {
         headers: {
@@ -191,7 +193,9 @@ export default new Vuex.Store({
 
       try {
         const { data } = await axios.post(url, certificationRequest, config);
+        const response = await axios.get(urlMail);
         console.log(data);
+        console.log(response);
       } catch (err) {
         console.log(err);
       }

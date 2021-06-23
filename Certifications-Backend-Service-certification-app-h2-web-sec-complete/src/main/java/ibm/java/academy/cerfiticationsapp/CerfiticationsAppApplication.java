@@ -58,7 +58,7 @@ public class CerfiticationsAppApplication extends SpringBootServletInitializer i
         URI uri;
 		try {
 			uri = new URI(baseUrl);
-			User user = new User("root", "root", "root", "root");
+			User user = new User("root", "root", "root@root.sk", "password");
 
         	HttpHeaders headers = new HttpHeaders();
         	headers.set("Content-Type", "application/json");  
