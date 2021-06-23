@@ -37,18 +37,28 @@ import axios from "axios";
 export default Vue.extend({
   name: "Home",
   components: {
-    CertificationItem,
+    CertificationItem
   },
   computed: {
-    ...mapGetters(["certifications"]),
+    ...mapGetters(["certifications", "sessionid"])
   },
   async mounted() {
-    const { data } = await axios.get("http://localhost:8080/certifications");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "auth_token": localStorage.getItem("auth_token")
+      }
+    };
+
+    const { data } = await axios.get(
+      "http://localhost:8080/certifications",
+      config
+    );
     console.log(data._embedded.certifications);
     this.certificationsMutation(data._embedded.certifications);
   },
   methods: {
-    ...mapMutations(["certificationsMutation"]),
-  },
+    ...mapMutations(["certificationsMutation"])
+  }
 });
 </script>

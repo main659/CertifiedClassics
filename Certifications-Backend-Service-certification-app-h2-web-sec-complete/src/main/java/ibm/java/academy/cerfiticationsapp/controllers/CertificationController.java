@@ -1,6 +1,7 @@
 package ibm.java.academy.cerfiticationsapp.controllers;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ibm.java.academy.cerfiticationsapp.model.Certification;
+import ibm.java.academy.cerfiticationsapp.model.User;
 import ibm.java.academy.cerfiticationsapp.repository.CertificationJpaRepository;
+import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import ibm.java.academy.cerfiticationsapp.service.CertificationService;
+import ibm.java.academy.cerfiticationsapp.service.SendEmailService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -31,6 +35,9 @@ class CertificationController {
 
     @Autowired
     CertificationService certService;
+
+    
+
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CerfiticationsAppApplication<cerfitications-app>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "ibm.java.academy.cerfiticationsapp.CerfiticationsAppApplication",
+            "projectName": "cerfitications-app",
+            "args": ""
+        }
+    ]
+}

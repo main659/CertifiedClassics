@@ -15,8 +15,10 @@ import org.springframework.validation.annotation.Validated;
 
 import ibm.java.academy.cerfiticationsapp.model.Certification;
 import ibm.java.academy.cerfiticationsapp.model.Skill;
+import ibm.java.academy.cerfiticationsapp.model.User;
 import ibm.java.academy.cerfiticationsapp.repository.CertificationJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.SkillJpaRepository;
+import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import lombok.extern.java.Log;
 
 @Service
@@ -30,6 +32,9 @@ public class CertificationService {
     @Autowired
     private SkillJpaRepository skillRepo;
 
+  
+
+
     public BigDecimal getSumPrice() {
         List<Certification> allCerts = certRepo.findAll();
         BigDecimal sum = allCerts.stream().filter(x -> x.getPrice() != null).map(x -> x.getPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -37,7 +42,7 @@ public class CertificationService {
     }
 
     public Certification saveCertification(@Valid Certification certification) {
-        certification = certRepo.save(certification);
+        certification = certRepo.save(certification);      
         return certification;
     }
 

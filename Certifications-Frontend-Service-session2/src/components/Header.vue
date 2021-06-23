@@ -4,12 +4,21 @@
       <h2>Certifications@IBM</h2>
     </router-link>
     <v-spacer />
+    <router-link to="/vouchers" tag="span" class="pointerClass">
+      <span>Vouchers</span>
+      <v-icon>mdi-alpha-v-box</v-icon>
+    </router-link>
+    <router-link to="/registration" tag="span" class="pointerClass">
+      <span v-if="!loggedIn">Registration</span>
+      <v-icon></v-icon>
+    </router-link>
+    <v-spacer />
     <router-link to="/profile" tag="span" class="pointerClass">
       <span>Profile</span>
       <v-icon>mdi-account</v-icon>
     </router-link>
     <v-spacer />
-    <span class="pointerClass" @click="logout">
+    <span class="pointerClass" @click="logoutFromApp">
       <span>Logout</span>
       <v-icon>mdi-logout</v-icon>
     </span>
@@ -17,8 +26,12 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
   name: "Header",
+
   methods: {
     logout() {
       this.$store.commit("loggedInMutation", false);
@@ -26,7 +39,9 @@ export default {
       localStorage.removeItem("loggedIn");
       location.reload();
     },
-  },
+    ...mapActions(["logoutFromApp"]),
+    ...mapGetters(["loggedIn"])
+  }
 };
 </script>
 

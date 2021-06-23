@@ -29,9 +29,15 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn :disabled="!validForm" color="primary" @click="loginToApp"
+            <v-btn
+              left
+              :disabled="!validForm"
+              color="primary"
+              @click="loginToApp"
               >Login</v-btn
             >
+            <v-spacer></v-spacer>
+            <v-btn right color="green" to="/registration">Sign Up</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -48,10 +54,10 @@ export default {
     return {
       validForm: true,
       emailRules: [
-        (value) => !!value || "Email is required",
-        (value) => /.+@.+/.test(value) || "Email must be valid",
+        value => !!value || "Email is required",
+        value => /.+@.+/.test(value) || "Email must be valid"
       ],
-      minRules: [(value) => value.length >= 8 || "Min 8 characters"],
+      minRules: [value => value.length >= 8 || "Min 8 characters"]
     };
   },
   computed: {
@@ -61,7 +67,7 @@ export default {
       },
       set(value) {
         this.$store.commit("emailMutation", value);
-      },
+      }
     },
     password: {
       get() {
@@ -69,11 +75,11 @@ export default {
       },
       set(value) {
         this.$store.commit("passwordMutation", value);
-      },
-    },
+      }
+    }
   },
   methods: {
-    ...mapActions(["loginToApp"]),
-  },
+    ...mapActions(["loginToApp"])
+  }
 };
 </script>
