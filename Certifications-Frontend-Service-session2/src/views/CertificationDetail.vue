@@ -55,6 +55,50 @@
             Price:
             <strong>{{ currentCertification.price }}</strong>
           </p>
+          <v-row>
+            <v-card v-if="edit" class="mx-auto" max-width="500">
+              <v-list shaped>
+                <template v-for="(item, i) in allSkills">
+                  <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
+                  <v-list-item
+                    v-else
+                    :key="`item-${i}`"
+                    :value="item.name"
+                    active-class="deep-purple--text text--accent-4"
+                  >
+                    <template v-slot:default="{ active }">
+                      <v-list-item-content>
+                        <v-list-item-title
+                          v-text="item.name"
+                        ></v-list-item-title>
+                      </v-list-item-content>
+                      <v-list-item-action>
+                        <v-checkbox
+                          :input-value="active"
+                          color="deep-purple accent-4"
+                        ></v-checkbox>
+                      </v-list-item-action>
+                    </template>
+                  </v-list-item>
+                </template>
+              </v-list>
+            </v-card>
+          </v-row>
+          <v-row>
+            <v-card v-if="!edit" class="mx-auto" max-width="400" tile>
+              <v-list v-if="curSkills.length > 0">
+                <v-subheader>Skills</v-subheader>
+                <v-list-item v-for="(item, i) in curSkills" :key="i">
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <v-list-item-subtitle
+                      v-text="item.description"
+                    ></v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -62,9 +106,11 @@
 </template>
 
 <script>
+import Vue from "vue";
 import { mapGetters } from "vuex";
+import axios from "axios";
 
-export default {
+export default Vue.extend({
   name: "CertificationDetail",
   data() {
     return {
@@ -72,10 +118,31 @@ export default {
       currentCertification: {},
       certificationURL: null,
       certificationPrice: null,
-      certificationDescription: null
+      certificationDescription: null,
+      allSkills: {},
+      curSkills: {}
     };
   },
+  computed: {
+    ...mapGetters(["certifications"])
+  },
+  mounted() {
+    this.getSkills();
+    this.getCurSkills();
+  },
   methods: {
+    async getCurSkills() {
+      const { data } = await axios.get(
+        this.currentCertification._links.skills.href
+      );
+      console.log(data._embedded.skills);
+      this.curSkills = data._embedded.skills;
+    },
+    async getSkills() {
+      const { data } = await axios.get("http://localhost:8080/skills");
+      console.log(data._embedded.skills);
+      this.allSkills = data._embedded.skills;
+    },
     deleteCert() {
       this.$store.dispatch("deleteCertification", {
         price: this.certificationPrice,
@@ -85,7 +152,7 @@ export default {
         name: this.currentCertification.name,
         skills: this.currentCertification.skills,
         state: this.currentCertification.state,
-        vouchers: this.currentCertification.vouchers,
+        vouchers: this.currentCertification.vouchers
       });
       this.editModeOff();
       this.$forceUpdate();
@@ -99,7 +166,7 @@ export default {
         name: this.currentCertification.name,
         skills: this.currentCertification.skills,
         state: this.currentCertification.state,
-        vouchers: this.currentCertification.vouchers,
+        vouchers: this.currentCertification.vouchers
       });
       this.editModeOff();
       this.$forceUpdate();
@@ -122,9 +189,6 @@ export default {
     this.currentCertification = this.certifications.find(
       ({ id }) => id == this.$route.params.id
     );
-  },
-  computed: {
-    ...mapGetters(["certifications"]),
-  },
-};
+  }
+});
 </script>

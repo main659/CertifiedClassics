@@ -38,10 +38,10 @@ export default new Vuex.Store({
     password(state: any) {
       return state.password;
     },
-    loggedIn(state) {
+    loggedIn(state: any) {
       return state.loggedIn;
     },
-    certifications(state) {
+    certifications(state: any) {
       return state.certifications;
     },
   },
