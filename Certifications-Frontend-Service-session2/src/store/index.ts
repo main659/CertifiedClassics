@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import router from "../router/index";
 import axios from "axios";
 import qs from "qs";
+import { config } from "vue/types/umd";
 
 Vue.use(Vuex);
 
@@ -231,7 +232,7 @@ export default new Vuex.Store({
       };
 
       try {
-        const { data } = await axios.post(url, certificationRequest);
+        const { data } = await axios.post(url, certificationRequest, config);
         const response = await axios.get(urlMail, config);
         console.log(data);
         console.log(response);
@@ -240,6 +241,5 @@ export default new Vuex.Store({
       }
     }
   },
-  
   modules: {}
 });

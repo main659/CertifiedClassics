@@ -5,6 +5,16 @@
         <h1>Your profile</h1>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <h3>Name: {{userInfo.name}} {{userInfo.surname}}</h3>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <h3>User e-mail: {{userInfo.email}}</h3>
+      </v-col>
+    </v-row>
     <v-divider />
     <v-row>
       <v-col cols="12" style="padding-top: 2em">
@@ -96,7 +106,6 @@ export default Vue.extend({
   },
   methods: {
     async getUsers() {
-      console.log(localStorage.getItem("auth_token"));
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +114,7 @@ export default Vue.extend({
       };
       const { data } = await axios.get("http://localhost:8080/getuser", config);
       console.log(data);
-      // this.getUsers = data._embedded;
+      this.userInfo = data;
     },
     closeNewCertificationDialog() {
       this.newCertificationDialog = false;
