@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity
-public class Role {
+public class Role implements GrantedAuthority{
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Id
   private Long id;
@@ -27,4 +29,8 @@ public class Role {
   public void setRoleName(String roleName) {
      this.roleName = roleName;
   }
+   @Override
+   public String getAuthority() {
+      return roleName;
+   }
 }

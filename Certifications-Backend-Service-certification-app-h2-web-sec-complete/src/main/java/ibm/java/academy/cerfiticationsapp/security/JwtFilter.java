@@ -119,7 +119,7 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
                 .verify(token)
                 .getSubject();
                 System.out.println("This is the user: " + user);
-      return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken("David", "HelloWorld"));
+      return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user, ""));
    }
 
    @Override

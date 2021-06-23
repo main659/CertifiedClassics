@@ -23,10 +23,10 @@ public class SecurityUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByName(username)
+        User user = userRepo.findByEmail(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not present"));
 
-        return new org.springframework.security.core.userdetails.User(user.getName(),
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
            user.getPassword(),
            mapRolesToAuthorities(user.getRoles()));
     }
