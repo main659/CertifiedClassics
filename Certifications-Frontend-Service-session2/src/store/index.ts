@@ -13,6 +13,7 @@ export default new Vuex.Store({
     certifications: [],
 
     isAdmin: false,
+    isManager: false,
     notFound: false,
 
   },
@@ -24,7 +25,6 @@ export default new Vuex.Store({
       state.password = value;
     },
     loggedInMutation(state, value) {
-      console.log("loggedInMutation: " + value);
       if (value === null) {
         state.loggedIn = false;
       } else {
@@ -35,11 +35,17 @@ export default new Vuex.Store({
       state.certifications = value;
     },
     isAdminMutation(state, value){
-      console.log("isAdminnMutation: " + value);
       if (value === null) {
         state.isAdmin = false;
       } else {
         state.isAdmin = value;
+      }
+    },
+    isManagerMutation(state,value){
+      if(value === null){
+        state.isManager = false;
+      }else{
+        state.isManager = value;
       }
     },
     notFoundMutation(state,value){
@@ -62,6 +68,9 @@ export default new Vuex.Store({
     isAdmin(state){
       return state.isAdmin;
     },
+    isManager(state){
+      return state.isManager;
+    },
     notFound(state){
       return state.notFound;
     }
@@ -74,11 +83,14 @@ export default new Vuex.Store({
           email: this.state.email
         }
       }).then((result) =>{
-        console.log("Found loading page....");
         commit("loggedInMutation", true);
         commit("isAdminMutation",result.data.admin);
+        console.log(result.data.admin);
+        commit("isManagerMutation",result.data.manager);
+        console.log(result.data.manager);
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("isAdmin",result.data.admin);
+        localStorage.setItem("isManager",result.data.manager);
         router.push("/");
         
 
@@ -96,6 +108,16 @@ export default new Vuex.Store({
         }
       }).then((result)=>{
         console.log("DONE");
+      })
+    },
+    deleteCertification(state, id){
+      axios.delete("http://localhost:8080//certifications/{id}",{
+        params:{
+          id : id
+        }
+      }
+      ).then((result) =>{
+        console.log("DELETED");
       })
     },
     promoteUser(rootState,userEmail){
@@ -126,6 +148,10 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    saveCertificate(commit,certJson){
+      const res = axios.post("http://localhost:8080/certifications", certJson);
+      
+    }
   },
   modules: {},
 });

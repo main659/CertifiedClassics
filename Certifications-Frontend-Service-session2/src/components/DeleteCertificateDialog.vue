@@ -12,20 +12,18 @@
           style="width:200px;"
         >
           <span class="text-truncate" style="width:1500px;"
-            >Promote User</span
+            >Delete Certification</span
           ></v-btn
         >
       </template>
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title
-          >Promote User</v-card-title
+          >Delete Certification</v-card-title
         >
         <v-form class="px-3">
           <v-text-field
-            label="Email"
-            v-model="userEmail"
-            prepend-icon="mdi-account"
-            :rules="emailRules"
+            label="ID"
+            v-model="id"
           ></v-text-field>
 
           <v-text-field
@@ -36,7 +34,7 @@
             type="password"
           ></v-text-field>
 
-          <v-btn text class="primary mx-0 mt-3" @click="promoteUser(userEmail)"
+          <v-btn text class="primary mx-0 mt-3" @click="deleteCertification(id)"
             >Promote User</v-btn
           >
         </v-form>
@@ -50,17 +48,13 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      userEmail: "",
+      id: "",
       password: "",
-      emailRules: [
-        value => !!value || "Email is required",
-        value => /.+@.+/.test(value) || "Email must be valid"
-      ],
       minRules: [value => value.length >= 8 || "Min 8 characters"]
     };
   },
   methods: {
-    ...mapActions(["promoteUser"])
+    ...mapActions(["deleteCertification"])
   }
 };
 </script>

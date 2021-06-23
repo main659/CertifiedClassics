@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <div v-if="loggedIn">
-    <component :is="this.changeHeader.header"></component>
+      <keep-alive>
+        <component v-bind:is="this.changeHeader.header"></component>
+      </keep-alive>
     </div>
     <v-main>
       <router-view />
@@ -14,6 +16,7 @@
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import HeaderAdmin from "./components/HeaderAdmin.vue";
+import HeaderManager from "./components/HeaderManager.vue";
 import { mapGetters, mapMutations } from "vuex";
 import store from "./store";
 
@@ -21,31 +24,38 @@ export default {
   components: {
     Footer,
     Header,
-    HeaderAdmin
+    HeaderAdmin,
+    HeaderManager
   },
   computed: {
-    ...mapGetters(["loggedIn", "isAdmin"]),
+    ...mapGetters(["loggedIn", "isAdmin", "isManager"]),
 
     changeHeader() {
-      return store.getters["isAdmin"]
-        ? {
-            header: HeaderAdmin
-          }
-        : {
-            header: Header
-          };
+      if (store.getters["isAdmin"]) {
+        return { header: HeaderAdmin };
+      } else {
+        if (store.getters["isManager"]) {
+          return { header: HeaderManager };
+        } else {
+          return { header: Header };
+        }
+      }
     }
   },
   created() {
     this.loggedInMutation(localStorage.getItem("loggedIn"));
     this.isAdminMutation(localStorage.getItem("isAdmin"));
+    this.isManagerMutation(localStorage.getItem("isManager"));
     if (this.loggedIn == false) {
       this.$router.push("/login");
     }
-    
   },
   methods: {
-    ...mapMutations(["loggedInMutation","isAdminMutation"])
+    ...mapMutations([
+      "loggedInMutation",
+      "isAdminMutation",
+      "isManagerMutation"
+    ])
   }
 };
 </script>

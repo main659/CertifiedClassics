@@ -6,6 +6,7 @@ import CertificationDetail from "../views/CertificationDetail.vue";
 import Profile from "../views/Profile.vue";
 import { component } from "vue/types/umd";
 import AdminPage from "../views/AdminPage.vue";
+import ManagerPage from "../views/ManagerPage.vue";
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,11 @@ const routes: Array<RouteConfig> = [
     name: "AdminPage",
     component: AdminPage,
   },
+  {
+    path: "/managerPage",
+    name: "ManagerPage",
+    component: ManagerPage,
+  }
 ];
 
 const router = new VueRouter({

@@ -1,32 +1,33 @@
 <template>
-  <v-container class="grey lighten-5">
+
+	<v-container class="grey lighten-5">
     <v-row no-gutters>
       <v-col cols="12" sm="6" md="8">
         <v-card class="pa-2" outlined tile>
-          Click to delete a user via providing users email !!PERMANENT!!
+          Click to add a certification
         </v-card>
       </v-col>
       <v-col cols="6" md="4">
-        <DeleteDialog />
+        <AddCertificateDialog />
       </v-col>
     </v-row>
 
     <v-row no-gutters>
       <v-col cols="12" sm="6" md="8">
         <v-card class="pa-2" outlined tile>
-          Click to promote a user to a manager via providing users email
+          Click to add a certification
         </v-card>
       </v-col>
       <v-col cols="6" md="4">
-        <PromoteDialog />
+        <DeleteCertificateDialog />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import DeleteDialog from "../components/DeleteDialog.vue";
-import PromoteDialog from "../components/PromoteDialog.vue";
+import AddCertificateDialog from "../components/AddCertificateDialog.vue";
+import DeleteCertificateDialog from "../components/DeleteCertificateDialog.vue";
 export default {
   data() {
     return {
@@ -35,8 +36,8 @@ export default {
     };
   },
   components: {
-    DeleteDialog,
-    PromoteDialog
+    AddCertificateDialog,
+    DeleteCertificateDialog
   },
   methods: {
     alert() {
