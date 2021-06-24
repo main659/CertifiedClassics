@@ -102,6 +102,8 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
                     return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user, ""));
         }catch(JWTDecodeException jde){
             throw new JwtAuthenticationException("Exception: auth_token not propper Jwt token");
+        }catch(TokenExpiredException te){
+            throw new JwtAuthenticationException("Exception: auth_token expired");
         }
    }
 

@@ -17,9 +17,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import ibm.java.academy.cerfiticationsapp.model.Role;
 import ibm.java.academy.cerfiticationsapp.model.Skill;
 import ibm.java.academy.cerfiticationsapp.model.User;
+import ibm.java.academy.cerfiticationsapp.repository.RoleJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.SkillJpaRepository;
+import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import ibm.java.academy.cerfiticationsapp.service.CertificationService;
 import ibm.java.academy.cerfiticationsapp.service.VoucherService;
 import lombok.extern.java.Log;
@@ -43,7 +46,6 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 @Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
 @Log
 public class CerfiticationsAppApplication extends SpringBootServletInitializer implements WebMvcConfigurer, RepositoryRestConfigurer  {
-
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(CerfiticationsAppApplication.class, args);
 
@@ -66,6 +68,8 @@ public class CerfiticationsAppApplication extends SpringBootServletInitializer i
 			ResponseEntity<String> res = restTemplate.postForEntity(uri, req, String.class);
 		}catch(URISyntaxException e){}
 	}
+
+	
 
 	@Autowired
 	private EntityManager entityManager;

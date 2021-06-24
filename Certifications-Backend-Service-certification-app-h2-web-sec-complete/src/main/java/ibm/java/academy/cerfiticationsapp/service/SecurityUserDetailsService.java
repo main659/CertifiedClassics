@@ -2,6 +2,7 @@ package ibm.java.academy.cerfiticationsapp.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +32,7 @@ public class SecurityUserDetailsService implements UserDetailsService{
            mapRolesToAuthorities(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-        return List.of(() -> "USER");
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
+        return Set.of(() -> "USER");
   }
 }
