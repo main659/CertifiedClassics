@@ -6,10 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.auth0.jwt.JWT;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -65,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 authorizeRequests -> authorizeRequests
                 .antMatchers("/all-users**").authenticated() 
                 .antMatchers("/certifications**").authenticated()
-                .anyRequest().permitAll() 
+                .anyRequest().permitAll()
             ).addFilterBefore(
                 new HeaderUsernamePasswordAuthenticationFilter(authenticationManager()), 
                 UsernamePasswordAuthenticationFilter.class)

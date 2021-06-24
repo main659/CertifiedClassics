@@ -6,6 +6,7 @@ insert into certification(id,name,url, price, version) values (10003,'Spring Boo
 insert into certification(id,name,url, price, version) values (10004,'SAP Admin','https://spa.com', null,0);
 insert into certification(id,name,url, price, version) values (10005,'Oracle 12c Admin','https://oracle.com', 200,0);
 
+
 insert into user(id,name,surname,email,password) values(10011,'Elon','Musk','emusk@tesla.com','boilerplate');
 insert into user(id,name,surname,email) values(10012,'Tom','Paul','tpaul@tesla.com');
 insert into user(id,name,surname,email) values(10013,'Tom','Black','tblack@tesla.com');

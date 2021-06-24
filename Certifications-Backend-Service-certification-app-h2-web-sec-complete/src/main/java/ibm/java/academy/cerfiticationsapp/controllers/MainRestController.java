@@ -2,6 +2,7 @@ package ibm.java.academy.cerfiticationsapp.controllers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,6 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,6 +61,23 @@ public class MainRestController {
         return userRepo.findAll();
     }
 
+    @GetMapping("/getuser")
+    @ResponseBody
+    public User users(HttpServletRequest request) {
+        String token = request.getHeader("auth_token");
+        try{
+            String email = JWT.require(Algorithm.HMAC512("secret"))
+                        .build()
+                        .verify(token)
+                        .getSubject();
+                    
+                       Optional<User> userObject = userRepo.findByEmail(email);
+                       return userObject.orElse(new User());
+            }catch(JWTDecodeException jde){
+                return null;
+            }
+    }
+
     @PostMapping(path = "/add-user", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public User addUser(@RequestBody User user) {
@@ -98,17 +120,18 @@ public class MainRestController {
     @GetMapping("/sendEmailToAll")
     public String sendEmailToAll(){
 
-        //sendEmailService.sendEmail("sipiczki45@gmail.com", "body", "topic");
+        String body = "New Certificate added, go check it out";
+        String subject = "New Certificate";
+
+        
          
         List<User> users = userRepo.findAll();
         String s = "";
         for(User u : users){
             s = u.getEmail();
            s = u.getEmail().substring(s .indexOf("@") + 1);
-           if(s.equals("tesla.com")){
-               System.out.println(s);
-           }else{
-               System.out.println("NONONO");
+           if(s.equals("gmail.com") || s.equals("ibm.com")){
+            sendEmailService.sendEmail(u.getEmail(), body, subject);
            }
         }
         

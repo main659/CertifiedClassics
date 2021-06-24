@@ -13,7 +13,7 @@
                 prepend-icon="mdi-account"
                 label="Login"
                 type="text"
-                :counter="20"
+                :counter="30"
                 :rules="emailRules"
                 v-model="email"
               >
@@ -29,15 +29,10 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn
-              left
-              :disabled="!validForm"
-              color="primary"
-              @click="loginToApp"
-              >Login</v-btn
+            <v-btn color="secondary" @click="signUp">Create Account</v-btn>
+            <v-btn :disabled="!validForm" color="primary" @click="loginToApp"
+              >Sign In</v-btn
             >
-            <v-spacer></v-spacer>
-            <v-btn right color="green" to="/registration">Sign Up</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -60,6 +55,11 @@ export default {
       minRules: [value => value.length >= 8 || "Min 8 characters"]
     };
   },
+  mounted(){
+    if (this.$store.getters.loggedIn == "true") {
+      this.$router.push('/');
+    }
+  },
   computed: {
     email: {
       get() {
@@ -79,7 +79,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["loginToApp"])
+    ...mapActions(["loginToApp"]),
+    signUp(){
+      this.$router.push('/registration');
+    }
   }
 };
 </script>
+
+<style scoped>
+.pointerClass {
+  cursor: pointer;
+}
+</style>

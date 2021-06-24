@@ -73,7 +73,10 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+import axios from "axios";
+
+export default Vue.extend({
   data() {
     return {
       valid: true,
@@ -85,9 +88,25 @@ export default {
       nameRules: [(v) => !!v || "Name is required"],
       currencyRules: [(v) => !!v || "Currency is required"],
       urlRules: [(v) => !!v || "URL is required"],
+      userInfo: [],
     };
   },
+  mounted() {
+    this.getUsers();
+  },
   methods: {
+    async getUsers() {
+      console.log(localStorage.getItem("auth_token"));
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "auth_token": localStorage.getItem("auth_token"),
+        }
+      };
+      const { data } = await axios.get("http://localhost:8080/getuser", config);
+      console.log(data);
+      // this.getUsers = data._embedded;
+    },
     closeNewCertificationDialog() {
       this.newCertificationDialog = false;
       this.certificationName = "";
@@ -105,5 +124,5 @@ export default {
       this.closeNewCertificationDialog();
     },
   },
-};
+});
 </script>

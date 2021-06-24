@@ -62,10 +62,10 @@ export default new Vuex.Store({
     password(state: any) {
       return state.password;
     },
-    loggedIn(state) {
+    loggedIn(state: any) {
       return state.loggedIn;
     },
-    certifications(state) {
+    certifications(state: any) {
       return state.certifications;
     },
     vouchers(state) {
@@ -86,6 +86,7 @@ export default new Vuex.Store({
       
       localStorage.removeItem("auth_token");
       localStorage.setItem("loggedIn", "false");
+      commit("loggedInMutation", false);
       router.push('/login');
 
       const response = await axios.get('http://localhost:8080/logout', config);
@@ -177,6 +178,44 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    async updateCertification (
+      { commit, rootState },
+      certificationRequest
+    ) {
+      const url = "http://localhost:8080/certifications/" + certificationRequest.id;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+        "auth_token": localStorage.getItem("auth_token"),
+      };
+      try {
+        const { data } = await axios.put(url, certificationRequest, {
+          headers,
+        });
+        console.log(data);
+        router.go(-1);  // Find better way
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async deleteCertification(
+      { commit, rootState },
+      certificationRequest
+    ) {
+      const url = "http://localhost:8080/certifications/" + certificationRequest.id;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+        "auth_token": localStorage.getItem("auth_token"),
+      };
+      try {
+        const { data } = await axios.delete(url);
+        console.log(data);
+        router.go(-1);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async createCertificationRequest(
       { commit, rootState },
       certificationRequest
@@ -192,8 +231,8 @@ export default new Vuex.Store({
       };
 
       try {
-        const { data } = await axios.post(url, certificationRequest, config);
-        const response = await axios.get(urlMail);
+        const { data } = await axios.post(url, certificationRequest);
+        const response = await axios.get(urlMail, config);
         console.log(data);
         console.log(response);
       } catch (err) {
