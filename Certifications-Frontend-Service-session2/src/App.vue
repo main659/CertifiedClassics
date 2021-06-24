@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header v-if="loggedIn" />
+    <Header />
     <v-main>
       <router-view />
     </v-main>
@@ -19,7 +19,7 @@ export default {
     Header,
   },
   computed: {
-    ...mapGetters(["loggedIn"]),
+   
   },
   created() {
     this.loggedInMutation(localStorage.getItem("loggedIn"));

@@ -97,12 +97,22 @@ public class MainRestController {
 
     @GetMapping("/sendEmailToAll")
     public String sendEmailToAll(){
+
+        //sendEmailService.sendEmail("sipiczki45@gmail.com", "body", "topic");
          
         List<User> users = userRepo.findAll();
         String s = "";
         for(User u : users){
-            s += u.getEmail() + " ";
+            s = u.getEmail();
+           s = u.getEmail().substring(s .indexOf("@") + 1);
+           if(s.equals("tesla.com")){
+               System.out.println(s);
+           }else{
+               System.out.println("NONONO");
+           }
         }
+        
+    
 
         return "EMail sent to all users...";
 
