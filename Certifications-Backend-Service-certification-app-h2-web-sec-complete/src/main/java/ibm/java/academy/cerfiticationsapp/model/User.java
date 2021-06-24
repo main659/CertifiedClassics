@@ -1,6 +1,8 @@
 package ibm.java.academy.cerfiticationsapp.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
@@ -48,20 +52,13 @@ public class User {
     @JoinTable(name = "user_role",
      joinColumns = @JoinColumn(name = "user_id"),
      inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+     @Getter @Setter
+     private Set<Role> roles = new HashSet<>();
 
     public User(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-    
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 }

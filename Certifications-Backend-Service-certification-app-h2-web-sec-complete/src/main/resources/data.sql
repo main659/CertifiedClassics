@@ -25,5 +25,9 @@ insert into skill(id,name,desc) values (20004, 'Oracle database 12c administrato
 insert into certification_skill(certification_id, skill_id) values (10003,20001);
 insert into certification_skill(certification_id, skill_id) values (10003,20002);
 
+insert into role(id, rolename) values(5,'ADMIN');
+insert into role(id, rolename) values(6,'MANAGER');
+insert into role(id, rolename) values(7,'USER');
+
 update voucher set user_id=10012 where id = 10020;
 insert into certification_skill(certification_id, skill_id) values (10001,20002);

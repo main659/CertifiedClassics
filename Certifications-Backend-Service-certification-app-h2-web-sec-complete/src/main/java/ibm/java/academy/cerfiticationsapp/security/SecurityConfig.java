@@ -61,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .authorizeRequests(
                 authorizeRequests -> authorizeRequests
-                .antMatchers("/all-users**").authenticated() 
-                .antMatchers("/certifications**").authenticated()
+                .antMatchers("/all-users**").hasAuthority("ADMIN")
+                .antMatchers("/certifications**").hasAuthority("USER")
                 .anyRequest().permitAll()
             ).addFilterBefore(
                 new HeaderUsernamePasswordAuthenticationFilter(authenticationManager()), 

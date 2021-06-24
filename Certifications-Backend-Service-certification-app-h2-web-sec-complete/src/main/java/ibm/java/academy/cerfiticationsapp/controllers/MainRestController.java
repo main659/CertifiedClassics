@@ -1,8 +1,11 @@
 package ibm.java.academy.cerfiticationsapp.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,8 +30,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ibm.java.academy.cerfiticationsapp.model.Role;
 import ibm.java.academy.cerfiticationsapp.model.User;
 import ibm.java.academy.cerfiticationsapp.model.Voucher;
+import ibm.java.academy.cerfiticationsapp.repository.RoleJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import ibm.java.academy.cerfiticationsapp.request.VoucherUpdateRequest;
 import ibm.java.academy.cerfiticationsapp.response.MessageResponse;
@@ -42,6 +47,10 @@ public class MainRestController {
 
     @Autowired 
     UserJpaRepository userRepo;
+
+    @Autowired 
+    RoleJpaRepository roleRepo;
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -70,9 +79,10 @@ public class MainRestController {
                         .build()
                         .verify(token)
                         .getSubject();
-                    
-                       Optional<User> userObject = userRepo.findByEmail(email);
-                       return userObject.orElse(new User());
+
+                        User newUser = userRepo.findByEmail(email).orElse(new User());
+                        System.out.println(newUser.getRoles());
+                       return userRepo.findByEmail(email).orElse(new User());
             }catch(JWTDecodeException jde){
                 return null;
             }
@@ -84,6 +94,14 @@ public class MainRestController {
         System.out.println("Creating user: " + user.toString());
         User newUser = new User(user.getName(), user.getSurname(),
          user.getEmail(), passwordEncoder.encode(user.getPassword()));
+        userRepo.save(newUser);
+        Role basicRole = roleRepo.findById(7L).orElse(new Role("USER"));
+        if(user.getEmail().equals("david.lumen@gmail.com")){
+            Role adminRole = roleRepo.findById(5L).orElse(new Role("ADMIN"));
+            newUser.getRoles().addAll(Arrays.asList(basicRole, adminRole));
+        }else{
+            newUser.getRoles().addAll(Arrays.asList(basicRole));
+        }
         return userRepo.save(newUser);
     }
 
@@ -129,4 +147,5 @@ public class MainRestController {
         return "EMail sent to all users...";
 
     }
+
 }

@@ -2,7 +2,6 @@ package ibm.java.academy.cerfiticationsapp.model;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +18,9 @@ public class SecurityUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         final Set<GrantedAuthority> _grntdAuths = new HashSet<GrantedAuthority>();
-        List<Role> _roles = null;
+        Set<Role> _roles = null;
+
+        System.out.println("This executed");
 
         if (user!=null) {
             _roles = user.getRoles();
